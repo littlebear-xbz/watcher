@@ -1,0 +1,72 @@
+[
+  {
+    "type":"mysql",
+    "dbcomment":"江夏边界数据库100.11.211.97",
+    "host":"100.11.211.97",
+    "port":3306,
+    "user":"hkcrw",
+    "passwd":"hkcr@JX07",
+    "db":"hk_cr",
+    "sqls":[
+      {"sql":"select count(*) from ads_ctrl_cnt_d where stat_date = DATE_SUB(CURDATE(),INTERVAL 1 day)",
+        "comment":"昨日同步频次分析数据条数"},
+      {"sql":"select count(*) from ads_kapc_face_rt where stat_date = DATE_SUB(CURDATE(),INTERVAL 1 day)",
+        "comment":"昨日同步人脸预警数据条数"},
+      {"sql":"select count(*) from ads_kapc_vehicle_rt where stat_date = DATE_SUB(CURDATE(),INTERVAL 1 day)",
+        "comment":"昨日同步mac预警数据条数"},
+      {"sql":"select count(*) from ads_kapc_wifi_rt where stat_date = DATE_SUB(CURDATE(),INTERVAL 1 day)",
+        "comment":"昨日同步wifi预警数据条数"},
+      {"sql":"select count(*) from ods_hkface_rt where stat_date = DATE_SUB(CURDATE(),INTERVAL 1 day)",
+        "comment":"昨日同步人脸抓拍数据条数"}
+    ]
+  },
+  {
+    "type":"mysql",
+    "dbcomment":"江汉数据库100.37.1.80",
+    "host":"100.37.1.80",
+    "port":3306,
+    "user":"hkcrw",
+    "passwd":"hkcr@JX07",
+    "db":"KAPC_HK_CR",
+    "sqls":[
+      {"sql":"select count(*) from ods_wifi_rt where stat_date = CURDATE()",
+        "comment":"今日wifi原始数据保存条数"},
+      {"sql":"select count(*) from ods_wifi_rt where stat_date = DATE_SUB(CURDATE(),INTERVAL 1 day)",
+        "comment":"昨日wifi原始数据保存条数"},
+      {"sql":"SELECT count(*) FROM ods_hk_cr_vechile_rt where passtime > DATE_FORMAT(CURDATE(),'%Y-%m-%d %H:%i:%s')",
+        "comment":"今日车卡采集原始数据条数"},
+      {"sql":"SELECT count(*) FROM ods_hk_cr_vechile_rt where passtime > DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 day),'%Y-%m-%d %H:%i:%s') and passtime <DATE_FORMAT(CURDATE(),'%Y-%m-%d %H:%i:%s')",
+        "comment":"昨日车卡采集原始数据条数"}
+    ]
+  },
+  {
+    "type":"shell",
+    "comment":"江汉人脸图片服务器",
+    "host":"100.37.11.9",
+    "port":22,
+    "user":"root",
+    "passwd":"123456",
+    "cmds":[
+      {"cmd":"free -m",
+        "comment":"服务器内存使用情况"},
+      {"cmd":"df -h",
+        "comment":"服务器磁盘使用情况"}
+    ]
+  },
+  {
+    "type":"shell",
+    "comment":"江汉人脸图片服务器",
+    "host":"100.37.1.120",
+    "port":22,
+    "user":"root",
+    "passwd":"123456",
+    "cmds":[
+      {"cmd":"free -m",
+        "comment":"服务器内存使用情况"},
+      {"cmd":"df -h",
+        "comment":"服务器磁盘使用情况"},
+      {"cmd":"ls /home/ftp/ | wc -l",
+        "comment":"待处理文件个数"}
+    ]
+  }
+]
