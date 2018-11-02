@@ -156,8 +156,8 @@ def _format_addr(s):
         addr.encode('utf-8') if isinstance(addr, unicode) else addr))
 
 def send_mail(msg_context):
-    from_addr = '15337192267@163.com'
-    password = 'sqm163'
+    from_addr = '15337192267@163.com' # 写自己的账号
+    password = '******' # 根据自己授权码来写
     subject = CF.get('email', 'subject') + str(datetime.date.today())
     # to_addr = 'littlebear.xbz@qq.com'
     to_addr = CF.get('email', 'email_to').split(',')
