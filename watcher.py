@@ -19,6 +19,7 @@ __mtime__ = '2018-10-26'
                   ┗┻┛  ┗┻┛
 """
 
+
 from email.header import Header
 from email.mime.text import MIMEText
 from email.utils import parseaddr, formataddr
@@ -38,6 +39,7 @@ logging.config.fileConfig("./conf/logger.conf")
 logger = logging.getLogger("FileAndScreen")
 reload(sys)
 sys.setdefaultencoding('utf-8')
+
 
 # 发送邮件的变量
 msg_context = """"""
@@ -62,6 +64,7 @@ def get_context():
                 logger.error("无法处理的类型" + watcher_conf["type"])
         else:
             logger.error("无法识别的配置段" + watcher_conf)
+
 
 # 配置为mysql的处理方案
 def get_mysql_context(watcher_conf):
@@ -110,6 +113,7 @@ def get_mysql_context(watcher_conf):
     cursor.close()
     conn.close()
 
+
 # 配置为shell的处理方案
 def get_shell_context(watcher_conf):
     logger.info("开始处理脚本：" + watcher_conf["comment"])
@@ -154,6 +158,7 @@ def _format_addr(s):
     return formataddr(( \
         Header(name, 'utf-8').encode(), \
         addr.encode('utf-8') if isinstance(addr, unicode) else addr))
+
 
 def send_mail(msg_context):
     from_addr = '15337192267@163.com'
