@@ -2,7 +2,7 @@
 """
 __title__ = ''
 __author__ = 'Administrator'
-__mtime__ = '2018-10-26'
+__mtime__ = '2018-11-13'
 # code is far away from bugs with the god animal protecting
     I love animals. They taste delicious.
               ┏┓      ┏┓
@@ -63,7 +63,7 @@ def get_context():
             else:
                 logger.error("无法处理的类型" + watcher_conf["type"])
         else:
-            logger.error("无法识别的配置段" + watcher_conf)
+            logger.error("无法识别的配置段" + json.dumps(watcher_conf, ensure_ascii=False, indent=1))
 
 
 # 配置为mysql的处理方案
@@ -88,11 +88,11 @@ def get_mysql_context(watcher_conf):
         logger.info(watcher_conf)
     except Exception, e:
         logger.error("不能连接配置的数据库：")
-        logger.error(watcher_conf)
+        logger.error(json.dumps(watcher_conf, ensure_ascii=False, indent=1))
         logger.error(e)
         msg_add = "\n---------------------------------------\n"
         msg_add = msg_add + "不能连接配置的数据库:\n"
-        msg_add = msg_add + str(watcher_conf) + "\n"
+        msg_add = msg_add + json.dumps(watcher_conf, ensure_ascii=False, indent=1) + "\n"
         msg_context = msg_context + msg_add
         return -1
     for sql in sqls:
@@ -107,7 +107,7 @@ def get_mysql_context(watcher_conf):
             msg_context = msg_context + sql_c + "：\n" + "无法执行语句:" + sql_e + "\n"
             continue
         msg_add = "---------------------------------------\n"
-        msg_add = msg_add +  sql_c + "：\n" + str(result) + "\n"
+        msg_add = msg_add + sql_c + "：\n" + str(result) + "\n"
         logger.info("增加邮件发送内容：" + msg_add)
         msg_context = msg_context + msg_add
     cursor.close()
@@ -133,7 +133,7 @@ def get_shell_context(watcher_conf):
         logger.error("无法连接配置信息上的主机")
         msg_add = "\n---------------------------------------\n"
         msg_add = msg_add + "无法连接配置信息上的主机\n"
-        msg_add = msg_add + str(watcher_conf) + "\n"
+        msg_add = msg_add + json.dumps(watcher_conf, ensure_ascii=False, indent=1) + "\n"
         msg_context = msg_context + msg_add
         return -1
     for cmd in watcher_conf["cmds"]:
@@ -161,15 +161,15 @@ def _format_addr(s):
 
 
 def send_mail(msg_context):
-    from_addr = '15337192267@163.com' # 写自己的账号
-    password = '******' # 根据自己授权码来写
+    from_addr = '15337192267@163.com'
+    password = 'sqm163'
     subject = CF.get('email', 'subject') + str(datetime.date.today())
     # to_addr = 'littlebear.xbz@qq.com'
     to_addr = CF.get('email', 'email_to').split(',')
     from_name = CF.get('email', 'from')
     smtp_server = 'smtp.163.com'
     msg = MIMEText(msg_context, 'plain', 'utf-8')
-    msg['From'] = _format_addr('{from_name} <{from_addr}>'.format(from_name=from_name,from_addr=from_addr))
+    msg['From'] = _format_addr('{from_name} <{from_addr}>'.format(from_name=from_name, from_addr=from_addr))
     msg['To'] = _format_addr(to_addr)
     msg['Subject'] = Header(subject, 'utf-8').encode()
     server = smtplib.SMTP(smtp_server, 25)
